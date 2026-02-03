@@ -62,4 +62,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return gradeDto;
     }
 
+    @Override
+    public void clearSchedule(String grade, String clazz, String term) {
+        // 删除指定条件下的课程安排
+        com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<Course> queryWrapper =
+            new com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<Course>();
+        queryWrapper.eq("grade", grade);
+        queryWrapper.eq("clazz", clazz);
+        queryWrapper.eq("term", term);
+        
+        this.baseMapper.delete(queryWrapper);
+    }
+
 }

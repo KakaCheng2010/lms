@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lms.mapper.CourseCountMapper">
+    
+    <resultMap type="com.ruoyi.lms.domain.CourseCount" id="CourseCountResult">
+        <result property="id"    column="id"    />
+        <result property="grade"    column="grade"    />
+        <result property="course"    column="course"    />
+        <result property="courseSum"    column="course_sum"    />
+    </resultMap>
+
+    <sql id="selectCourseCountVo">
+        select id, grade, course, course_sum from lms_course_count
+    </sql>
+
+    <select id="selectCourseCountList" parameterType="com.ruoyi.lms.domain.CourseCount" resultMap="CourseCountResult">
+        <include refid="selectCourseCountVo"/>
+        <where>
+            <if test="grade != null  and grade != ''">
+                AND grade = #{grade}
+            </if>
+            <if test="course != null  and course != ''">
+                AND course = #{course}
+            </if>
+            <if test="courseSum != null ">
+                AND course_sum = #{courseSum}
+            </if>
+        </where>
+    </select>
+    
+    <delete id="deleteCourseCountByIds" parameterType="long">
+        delete from lms_course_count where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

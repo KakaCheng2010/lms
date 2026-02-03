@@ -18,4 +18,6 @@ public interface ICourseService extends IService<Course> {
      * @return
      */
     List<CourseDto> checkCourse(CourseDto domain);
+    
+    void clearSchedule(String grade, String clazz, String term);
 }
