@@ -25,7 +25,7 @@ public class DomainFillConfig implements MetaObjectHandler {
         this.setFieldValByName("updateTime", new Date(), metaObject);
 
         //操作人
-        LoginUser loginUser = SecurityUtils.getLoginUser();
+        LoginUser loginUser = SecurityUtils.getLoginUserWithNull();
         if (loginUser != null) {
             this.setFieldValByName("createBy", loginUser.getUsername(), metaObject);
             this.setFieldValByName("updateBy", loginUser.getUsername(), metaObject);
@@ -40,7 +40,7 @@ public class DomainFillConfig implements MetaObjectHandler {
         this.setFieldValByName("updateTime", new Date(), metaObject);
         //操作人
 
-        LoginUser loginUser = SecurityUtils.getLoginUser();
+        LoginUser loginUser = SecurityUtils.getLoginUserWithNull();
         if (loginUser != null) {
             this.setFieldValByName("updateBy", loginUser.getUsername(), metaObject);
         }

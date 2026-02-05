@@ -12,12 +12,16 @@
         </el-select>
       </el-form-item>
       <el-form-item label="课程" prop="course">
-        <el-input
-          v-model="queryParams.course"
-          placeholder="请输入课程"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+
+        <el-select v-model="queryParams.course" placeholder="请选择课程" clearable>
+          <el-option
+              v-for="dict in dict.type.course"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+          />
+        </el-select>
+
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -68,7 +72,11 @@
           <dict-tag :options="dict.type.grade" :value="scope.row.grade"/>
         </template>
       </el-table-column>
-      <el-table-column label="课程" align="center" prop="course" />
+      <el-table-column label="课程" align="center" prop="course" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.course" :value="scope.row.course"/>
+        </template>
+      </el-table-column>
       <el-table-column label="每周课程数" align="center" prop="courseSum" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -112,7 +120,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程" prop="course">
-          <el-input v-model="form.course" placeholder="请输入课程" />
+          <el-select v-model="form.course" placeholder="请选择课程" clearable>
+            <el-option
+                v-for="dict in dict.type.course"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="每周课程数" prop="courseSum">
           <el-input-number v-model="form.courseSum" placeholder="请输入每周课程数" :min="0" :max="100" />
@@ -127,11 +142,11 @@
 </template>
 
 <script>
-import { listCourseCount, getCourseCount, delCourseCount, addCourseCount, updateCourseCount, exportCourseCount } from "@/api/lms/courseCount";
+import { listCourseCount, getCourseCount, delCourseCount, addCourseCount, updateCourseCount } from "@/api/lms/courseCount";
 
 export default {
   name: "CourseCount",
-  dicts: ['grade'],
+  dicts: ['grade','course'],
   data() {
     return {
       // 遮罩层
