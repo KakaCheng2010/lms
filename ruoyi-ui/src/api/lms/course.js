@@ -26,3 +26,12 @@ export function saveBatch(data) {
   })
 }
 
+// 检查教师冲突
+export function checkTeacherConflict(query) {
+  return request({
+    url: '/lms/course/checkTeacherConflict',
+    method: 'get',
+    params: query
+  })
+}
+

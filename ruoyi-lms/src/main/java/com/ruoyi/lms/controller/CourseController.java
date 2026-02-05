@@ -36,4 +36,11 @@ public class CourseController extends BaseController {
         List<CourseDto> list = courseService.checkCourse(dto);
         return list;
     }
+
+    @GetMapping("/checkTeacherConflict")
+    public List<CourseDto> checkTeacherConflict(CourseDto dto) {
+        List<CourseDto> conflicts = courseService.checkTeacherConflict(dto.getTerm(), dto.getGrade());
+        return conflicts;
+    }
+
 }

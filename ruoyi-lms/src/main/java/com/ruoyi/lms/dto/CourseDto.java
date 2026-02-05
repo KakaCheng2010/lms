@@ -63,4 +63,14 @@ public class CourseDto extends BaseDto{
     private Integer courseSum;
 
     private Integer courseSumStandard;
+    
+    /**
+     * 是否存在冲突
+     */
+    private Boolean hasConflict;
+    
+    /**
+     * 冲突描述
+     */
+    private String conflictDescription;
 }

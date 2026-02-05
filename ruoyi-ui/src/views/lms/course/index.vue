@@ -169,7 +169,8 @@ export default {
               term: this.queryParams.term,
               weekDay: day.key,
               classPeriod: row.period,
-              course: course
+              course: course.course,
+              teacher: course.teacher
             })
           }
         })

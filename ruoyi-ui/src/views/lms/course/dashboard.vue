@@ -88,11 +88,39 @@
       </el-table-column>
 
     </el-table>
+    
+    <el-divider content-position="left">教师安排冲突展示</el-divider>
+
+    <el-table :data="teacherConflictTable" border>
+      <el-table-column prop="clazz" label="班级" width="100">
+      </el-table-column>
+
+      <el-table-column prop="course" label="课程" width="100">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.course" :value="scope.row.course"/>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="teacher" label="教师" width="100">
+      </el-table-column>
+
+      <el-table-column prop="weekDay" label="周几" width="80">
+        <template slot-scope="scope">
+          星期{{ scope.row.weekDay }}
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="classPeriod" label="第几节" width="100">
+      </el-table-column>
+
+      <el-table-column prop="conflictDescription" label="冲突描述" min-width="200">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-import {list,checkCourse} from "@/api/lms/course";
+import {list,checkCourse, checkTeacherConflict} from "@/api/lms/course";
 
 export default {
   dicts: ['term', 'clazz', 'course','grade'],
@@ -107,6 +135,7 @@ export default {
         grade: '1',
       },
       checkTable:[],
+      teacherConflictTable: [], // 教师冲突表格数据
       // 核心数据
       tableData: [],
       week_days: [
@@ -124,6 +153,7 @@ export default {
     handleQuery() {
       this.getList()
       this.getCheckList()
+      this.getTeacherConflictList()
     },
     //根据节次获取行
     getRow(classPeriod) {
@@ -141,6 +171,13 @@ export default {
         this.checkTable =  response.filter(item => {
         return   item.courseSum!=item.courseSumStandard
         })
+      })
+    },
+    
+    getTeacherConflictList(){
+      this.teacherConflictTable = []
+      checkTeacherConflict(this.queryParams).then(response => {
+        this.teacherConflictTable = response;
       })
     },
 
@@ -181,6 +218,7 @@ export default {
   mounted() {
     this.getList()
     this.getCheckList()
+    this.getTeacherConflictList()
   }
 };
 </script>

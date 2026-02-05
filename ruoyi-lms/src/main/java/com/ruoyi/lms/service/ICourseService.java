@@ -20,4 +20,13 @@ public interface ICourseService extends IService<Course> {
     List<CourseDto> checkCourse(CourseDto domain);
     
     void clearSchedule(String grade, String clazz, String term);
+    
+    /**
+     * 检查教师冲突
+     *
+     * @param term 学期
+     * @param grade 年级
+     * @return 教师冲突信息列表
+     */
+    List<CourseDto> checkTeacherConflict(String term, String grade);
 }
