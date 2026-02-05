@@ -4,6 +4,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.lms.domain.CourseTeacher;
+import com.ruoyi.lms.dto.CourseTeacherDto;
 import com.ruoyi.lms.service.ICourseTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,15 @@ public class CourseTeacherController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(courseTeacherService.removeByIds(java.util.Arrays.asList(ids)));
+    }
+    
+    /**
+     * 根据年级和班级查询老师及科目信息
+     */
+    @GetMapping("/teachersByGradeAndClazz")
+    public AjaxResult getTeachersByGradeAndClazz(CourseTeacherDto courseTeacher) {
+        List<CourseTeacher> teachers = courseTeacherService.selectTeachersByGradeAndClazz(courseTeacher);
+        return AjaxResult.success(teachers);
     }
 }
 

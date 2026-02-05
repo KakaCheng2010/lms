@@ -31,9 +31,6 @@
           />
         </el-select>
       </el-form-item>
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--      </el-form-item>-->
     </el-form>
 
 
@@ -53,7 +50,7 @@
       >
         <template slot-scope="scope">
           <el-select
-            v-model="scope.row[day.key]"
+            v-model="scope.row[day.key]['course']"
             placeholder="请选择课程"
           >
             <el-option
@@ -63,6 +60,20 @@
               :value="dict.value"
             />
           </el-select>
+
+          <el-select
+              v-model="scope.row[day.key]['teacher']"
+              placeholder="请选择教师"
+          >
+            <el-option
+                v-for="teacher in teachers"
+                v-if="teacher.course==scope.row[day.key]['course']"
+                :key="teacher.teacher"
+                :label="teacher.teacher"
+                :value="teacher.teacher"
+            />
+          </el-select>
+
         </template>
       </el-table-column>
     </el-table>
@@ -72,6 +83,7 @@
 <script>
 
 import {list,saveBatch } from "@/api/lms/course";
+import {teachersByGradeAndClazz} from "@/api/lms/courseTeacher";
 export default {
   name: "Course",
   dicts: ['grade','clazz', 'term','course'],
@@ -87,6 +99,7 @@ export default {
         grade:'1',
         clazz: '1'
       },
+      teachers:[],
       week_days: [
         { key: 1, label: '星期一' },
         { key: 2, label: '星期二' },
@@ -106,21 +119,30 @@ export default {
       this.tableData = this.class_period.map(period => {
         const row = { period }
         this.week_days.forEach(day => {
-          row[day.key] = ''
+          row[day.key]={}
+          row[day.key]['course'] = null
+          row[day.key]['teacher'] = null
         })
         return row
       })
     },
     /**列表 */
     getList() {
-      this.loading = true;
+      this.loading = true
       this.initEmptyTable()
+      this.teachersByGradeAndClazz(this.queryParams.grade,this.queryParams.clazz)
       list(this.queryParams).then(response => {
         response.forEach(row => {
-          this.tableData[row.classPeriod-1][row.weekDay]=row.course;
+          this.tableData[row.classPeriod-1][row.weekDay]['course']=row.course;
+          this.tableData[row.classPeriod-1][row.weekDay]['teacher']=row.teacher;
         })
         this.loading = false;
       });
+    },
+    teachersByGradeAndClazz(grade,clazz){
+      teachersByGradeAndClazz({grade:grade,clazz:clazz}).then(response => {
+        this.teachers = response.data;
+      })
     },
 
     reset() {

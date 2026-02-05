@@ -43,10 +43,11 @@ export function delCourseTeacher(id) {
   })
 }
 
-// 根据课程和班级信息查找对应的教师
-export function findTeachers(query) {
+
+
+export function teachersByGradeAndClazz(query) {
   return request({
-    url: '/lms/courseTeacher/findTeachers',
+    url: '/lms/courseTeacher/teachersByGradeAndClazz',
     method: 'get',
     params: query
   })

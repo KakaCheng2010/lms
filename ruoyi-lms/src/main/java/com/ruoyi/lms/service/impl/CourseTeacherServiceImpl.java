@@ -2,12 +2,15 @@ package com.ruoyi.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.lms.domain.CourseTeacher;
+import com.ruoyi.lms.dto.CourseTeacherDto;
 import com.ruoyi.lms.mapper.CourseTeacherMapper;
 import com.ruoyi.lms.service.ICourseTeacherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseTeacherServiceImpl extends ServiceImpl<CourseTeacherMapper, CourseTeacher> implements ICourseTeacherService {
@@ -27,6 +30,19 @@ public class CourseTeacherServiceImpl extends ServiceImpl<CourseTeacherMapper, C
         if (courseTeacher.getTeacher() != null && !courseTeacher.getTeacher().equals("")) {
             queryWrapper.like("teacher", courseTeacher.getTeacher());
         }
+        return this.baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<CourseTeacher> selectTeachersByGradeAndClazz(CourseTeacherDto dto) {
+        QueryWrapper<CourseTeacher> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(dto.getGrade())) {
+            queryWrapper.eq("grade", dto.getGrade());
+        }
+        if (StringUtils.isNotEmpty(dto.getClazz())) {
+            queryWrapper.eq("clazz", dto.getClazz());
+        }
+        
         return this.baseMapper.selectList(queryWrapper);
     }
 }

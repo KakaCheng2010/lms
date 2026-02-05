@@ -55,6 +55,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row[day.key] && scope.row[day.key][clazz.value] && scope.row[day.key][clazz.value].course">
               <dict-tag :options="dict.type.course" :value="scope.row[day.key][clazz.value].course"/>
+              {{ scope.row[day.key][clazz.value].teacher }}
             </div>
             <div v-else>--</div>
           </template>
@@ -135,6 +136,7 @@ export default {
       }
     },
     getCheckList(){
+      this.checkTable = []
       checkCourse(this.queryParams).then(response => {
         this.checkTable =  response.filter(item => {
         return   item.courseSum!=item.courseSumStandard
@@ -156,7 +158,7 @@ export default {
             const week = {}
             //班级
             clazzList.forEach(clazz => {
-              week[clazz.dictValue] = {course: ''}
+              week[clazz.dictValue] = {course: '',teacher: ''}
             })
             row[day.key] = week
           })
@@ -167,6 +169,7 @@ export default {
           response.forEach(row => {
             let periodObj=this.getRow(row.classPeriod)
             periodObj[row.weekDay][row.clazz].course=row.course
+            periodObj[row.weekDay][row.clazz].teacher=row.teacher
           })
 
           this.loading = false;
