@@ -5,52 +5,52 @@
       <el-form-item label="学期" prop="term">
         <el-select v-model="queryParams.term" placeholder="学期" @change="handleQuery">
           <el-option
-            v-for="dict in dict.type.term"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
+              v-for="dict in dict.type.term"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
           />
         </el-select>
       </el-form-item>
 
       <el-form-item label="年级" prop="grade">
-        <el-select v-model="queryParams.grade" placeholder="年级"  @change="handleQuery">
+        <el-select v-model="queryParams.grade" placeholder="年级" @change="handleQuery">
           <el-option
-            v-for="dict in dict.type.grade"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
+              v-for="dict in dict.type.grade"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
           />
         </el-select>
       </el-form-item>
 
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item>-->
+      <!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
+      <!--      </el-form-item>-->
     </el-form>
 
     <el-table :data="tableData" border>
       <!-- 节次列 -->
       <el-table-column
-        prop="classPeriod"
-        label="节次"
-        fixed
-        align="center"
+          prop="classPeriod"
+          label="节次"
+          fixed
+          align="center"
       ></el-table-column>
 
       <!-- 动态星期 -->
       <el-table-column
-        v-for="day in week_days"
-        :key="day.key"
-        :label="day.label"
-        align="center"
+          v-for="day in week_days"
+          :key="day.key"
+          :label="day.label"
+          align="center"
       >
         <!-- 动态班级 -->
         <el-table-column
-          v-for="clazz in dict.type.clazz"
-          :key="`${day.value}-${clazz.value}`"
-          :label="clazz.label"
-          align="center"
+            v-for="clazz in dict.type.clazz"
+            :key="`${day.value}-${clazz.value}`"
+            :label="clazz.label"
+            align="center"
         >
           <template slot-scope="scope">
             <div v-if="scope.row[day.key] && scope.row[day.key][clazz.value] && scope.row[day.key][clazz.value].course">
@@ -63,67 +63,74 @@
       </el-table-column>
     </el-table>
 
-    <el-divider content-position="left">课时不匹配展示</el-divider>
+    <el-row>
+      <el-col :span="11">
+        <el-divider content-position="left">课时不匹配展示</el-divider>
 
-    <el-table :data="checkTable" border>
-      <el-table-column prop="clazz" label="班级" width="80">
+        <el-table :data="checkTable" border>
+          <el-table-column prop="clazz" label="班级">
 
 
-      </el-table-column>
+          </el-table-column>
 
-      <el-table-column prop="course" label="课程" width="80">
+          <el-table-column prop="course" label="课程">
 
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.course" :value="scope.row.course"/>
-        </template>
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.course" :value="scope.row.course"/>
+            </template>
 
-      </el-table-column>
+          </el-table-column>
 
-      <el-table-column prop="courseSum" label="课时" width="80">
+          <el-table-column prop="courseSum" label="课时">
 
-      </el-table-column>
+          </el-table-column>
 
-      <el-table-column prop="courseSumStandard" label="标准课时" width="80">
+          <el-table-column prop="courseSumStandard" label="标准课时">
 
-      </el-table-column>
+          </el-table-column>
 
-    </el-table>
-    
-    <el-divider content-position="left">教师安排冲突展示</el-divider>
+        </el-table>
+      </el-col>
+      <el-col :span="12" offset="1">
+        <el-divider content-position="left">教师安排冲突展示</el-divider>
 
-    <el-table :data="teacherConflictTable" border>
-      <el-table-column prop="clazz" label="班级" width="100">
-      </el-table-column>
+        <el-table :data="teacherConflictTable" border>
+          <el-table-column prop="clazz" label="班级" width="100">
+          </el-table-column>
 
-      <el-table-column prop="course" label="课程" width="100">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.course" :value="scope.row.course"/>
-        </template>
-      </el-table-column>
+          <el-table-column prop="course" label="课程" width="100">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.course" :value="scope.row.course"/>
+            </template>
+          </el-table-column>
 
-      <el-table-column prop="teacher" label="教师" width="100">
-      </el-table-column>
+          <el-table-column prop="teacher" label="教师" width="100">
+          </el-table-column>
 
-      <el-table-column prop="weekDay" label="周几" width="80">
-        <template slot-scope="scope">
-          星期{{ scope.row.weekDay }}
-        </template>
-      </el-table-column>
+          <el-table-column prop="weekDay" label="周几" width="80">
+            <template slot-scope="scope">
+              星期{{ scope.row.weekDay }}
+            </template>
+          </el-table-column>
 
-      <el-table-column prop="classPeriod" label="第几节" width="100">
-      </el-table-column>
+          <el-table-column prop="classPeriod" label="第几节" width="100">
+          </el-table-column>
 
-      <el-table-column prop="conflictDescription" label="冲突描述" min-width="200">
-      </el-table-column>
-    </el-table>
+          <el-table-column prop="conflictDescription" label="冲突描述" min-width="200">
+          </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+
+
   </div>
 </template>
 
 <script>
-import {list,checkCourse, checkTeacherConflict} from "@/api/lms/course";
+import {list, checkCourse, checkTeacherConflict} from "@/api/lms/course";
 
 export default {
-  dicts: ['term', 'clazz', 'course','grade'],
+  dicts: ['term', 'clazz', 'course', 'grade'],
   data() {
     return {
       loading: false,
@@ -134,7 +141,7 @@ export default {
         term: '20251',
         grade: '1',
       },
-      checkTable:[],
+      checkTable: [],
       teacherConflictTable: [], // 教师冲突表格数据
       // 核心数据
       tableData: [],
@@ -165,16 +172,16 @@ export default {
         return rows[0]
       }
     },
-    getCheckList(){
+    getCheckList() {
       this.checkTable = []
       checkCourse(this.queryParams).then(response => {
-        this.checkTable =  response.filter(item => {
-        return   item.courseSum!=item.courseSumStandard
+        this.checkTable = response.filter(item => {
+          return item.courseSum != item.courseSumStandard
         })
       })
     },
-    
-    getTeacherConflictList(){
+
+    getTeacherConflictList() {
       this.teacherConflictTable = []
       checkTeacherConflict(this.queryParams).then(response => {
         this.teacherConflictTable = response;
@@ -195,7 +202,7 @@ export default {
             const week = {}
             //班级
             clazzList.forEach(clazz => {
-              week[clazz.dictValue] = {course: '',teacher: ''}
+              week[clazz.dictValue] = {course: '', teacher: ''}
             })
             row[day.key] = week
           })
@@ -204,9 +211,9 @@ export default {
 
         list(this.queryParams).then(response => {
           response.forEach(row => {
-            let periodObj=this.getRow(row.classPeriod)
-            periodObj[row.weekDay][row.clazz].course=row.course
-            periodObj[row.weekDay][row.clazz].teacher=row.teacher
+            let periodObj = this.getRow(row.classPeriod)
+            periodObj[row.weekDay][row.clazz].course = row.course
+            periodObj[row.weekDay][row.clazz].teacher = row.teacher
           })
 
           this.loading = false;
