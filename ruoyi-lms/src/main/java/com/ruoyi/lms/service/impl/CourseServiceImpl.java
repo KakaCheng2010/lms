@@ -58,7 +58,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Override
     public List<CourseDto> checkCourse(CourseDto domain) {
-        List<CourseDto> gradeDto = this.baseMapper.selectCourseList(domain.getGrade());
+        List<CourseDto> gradeDto = this.baseMapper.selectCourseList(domain.getTerm(), domain.getGrade());
         return gradeDto;
     }
 
