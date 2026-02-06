@@ -259,7 +259,7 @@ public class IpUtils
             final String[] ips = ip.trim().split(",");
             for (String subIp : ips)
             {
-                if (false == isUnknown(subIp))
+                if (!isUnknown(subIp))
                 {
                     ip = subIp;
                     break;

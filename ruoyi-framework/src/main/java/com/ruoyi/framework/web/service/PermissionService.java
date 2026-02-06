@@ -47,7 +47,7 @@ public class PermissionService
      */
     public boolean lacksPermi(String permission)
     {
-        return hasPermi(permission) != true;
+        return !hasPermi(permission);
     }
 
     /**
@@ -115,7 +115,7 @@ public class PermissionService
      */
     public boolean lacksRole(String role)
     {
-        return hasRole(role) != true;
+        return !hasRole(role);
     }
 
     /**

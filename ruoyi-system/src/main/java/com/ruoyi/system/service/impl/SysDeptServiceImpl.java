@@ -319,7 +319,7 @@ public class SysDeptServiceImpl implements ISysDeptService
         Iterator<SysDept> it = list.iterator();
         while (it.hasNext())
         {
-            SysDept n = (SysDept) it.next();
+            SysDept n = it.next();
             if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue())
             {
                 tlist.add(n);

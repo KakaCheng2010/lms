@@ -12,7 +12,7 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param courseCount 课程数量
      * @return 课程数量集合
      */
-    public List<CourseCount> selectCourseCountList(CourseCount courseCount);
+    List<CourseCount> selectCourseCountList(CourseCount courseCount);
 
     /**
      * 查询课程数量
@@ -20,7 +20,7 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param id 课程数量主键
      * @return 课程数量
      */
-    public CourseCount selectCourseCountById(Long id);
+    CourseCount selectCourseCountById(Long id);
 
     /**
      * 新增课程数量
@@ -28,7 +28,7 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param courseCount 课程数量
      * @return 结果
      */
-    public int insertCourseCount(CourseCount courseCount);
+    int insertCourseCount(CourseCount courseCount);
 
     /**
      * 修改课程数量
@@ -36,7 +36,7 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param courseCount 课程数量
      * @return 结果
      */
-    public int updateCourseCount(CourseCount courseCount);
+    int updateCourseCount(CourseCount courseCount);
 
     /**
      * 批量删除课程数量
@@ -44,7 +44,7 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param ids 需要删除的课程数量主键集合
      * @return 结果
      */
-    public int deleteCourseCountByIds(Long[] ids);
+    int deleteCourseCountByIds(Long[] ids);
 
     /**
      * 删除课程数量信息
@@ -52,5 +52,5 @@ public interface ICourseCountService extends IService<CourseCount> {
      * @param id 课程数量主键
      * @return 结果
      */
-    public int deleteCourseCountById(Long id);
+    int deleteCourseCountById(Long id);
 }

@@ -182,7 +182,7 @@ public class ExcelUtil<T>
     /**
      * 统计列表
      */
-    private Map<Integer, Double> statistics = new HashMap<Integer, Double>();
+    private final Map<Integer, Double> statistics = new HashMap<Integer, Double>();
 
     /**
      * 数字格式
@@ -712,7 +712,7 @@ public class ExcelUtil<T>
             rowNo = isSubList() ? (i > 1 ? rowNo + 1 : rowNo + i) : i + 1 + rownum - startNo;
             row = sheet.createRow(rowNo);
             // 得到导出对象.
-            T vo = (T) list.get(i);
+            T vo = list.get(i);
             Collection<?> subList = null;
             if (isSubList())
             {
@@ -1321,7 +1321,7 @@ public class ExcelUtil<T>
         try
         {
             Object instance = excel.handler().newInstance();
-            Method formatMethod = excel.handler().getMethod("format", new Class[] { Object.class, String[].class, Cell.class, Workbook.class });
+            Method formatMethod = excel.handler().getMethod("format", Object.class, String[].class, Cell.class, Workbook.class);
             value = formatMethod.invoke(instance, value, excel.args(), cell, this.wb);
         }
         catch (Exception e)
@@ -1655,9 +1655,8 @@ public class ExcelUtil<T>
             for (HSSFShape shape : sheet.getDrawingPatriarch().getChildren())
             {
                 HSSFClientAnchor anchor = (HSSFClientAnchor) shape.getAnchor();
-                if (shape instanceof HSSFPicture)
+                if (shape instanceof HSSFPicture pic)
                 {
-                    HSSFPicture pic = (HSSFPicture) shape;
                     int pictureIndex = pic.getPictureIndex() - 1;
                     HSSFPictureData picData = pictures.get(pictureIndex);
                     String picIndex = anchor.getRow1() + "_" + anchor.getCol1();
@@ -1684,15 +1683,13 @@ public class ExcelUtil<T>
         Map<String, PictureData> sheetIndexPicMap = new HashMap<String, PictureData>();
         for (POIXMLDocumentPart dr : sheet.getRelations())
         {
-            if (dr instanceof XSSFDrawing)
+            if (dr instanceof XSSFDrawing drawing)
             {
-                XSSFDrawing drawing = (XSSFDrawing) dr;
                 List<XSSFShape> shapes = drawing.getShapes();
                 for (XSSFShape shape : shapes)
                 {
-                    if (shape instanceof XSSFPicture)
+                    if (shape instanceof XSSFPicture pic)
                     {
-                        XSSFPicture pic = (XSSFPicture) shape;
                         XSSFClientAnchor anchor = pic.getPreferredSize();
                         CTMarker ctMarker = anchor.getFrom();
                         String picIndex = ctMarker.getRow() + "_" + ctMarker.getCol();
@@ -1761,7 +1758,7 @@ public class ExcelUtil<T>
         Object value;
         try
         {
-            value = subMethod.invoke(obj, new Object[] {});
+            value = subMethod.invoke(obj);
         }
         catch (Exception e)
         {
@@ -1785,7 +1782,7 @@ public class ExcelUtil<T>
         Method method = null;
         try
         {
-            method = pojoClass.getMethod(getMethodName.toString(), new Class[] {});
+            method = pojoClass.getMethod(getMethodName.toString());
         }
         catch (Exception e)
         {

@@ -29,7 +29,7 @@ public class ReflectUtils
 
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-    private static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
     /**
      * 调用Getter方法.
@@ -141,7 +141,7 @@ public class ReflectUtils
         }
         catch (Exception e)
         {
-            String msg = "method: " + method + ", obj: " + obj + ", args: " + args + "";
+            String msg = "method: " + method + ", obj: " + obj + ", args: " + args;
             throw convertReflectionExceptionToUnchecked(msg, e);
         }
     }
@@ -214,7 +214,7 @@ public class ReflectUtils
         }
         catch (Exception e)
         {
-            String msg = "method: " + method + ", obj: " + obj + ", args: " + args + "";
+            String msg = "method: " + method + ", obj: " + obj + ", args: " + args;
             throw convertReflectionExceptionToUnchecked(msg, e);
         }
     }

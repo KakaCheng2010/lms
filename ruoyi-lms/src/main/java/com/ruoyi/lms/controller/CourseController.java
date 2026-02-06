@@ -71,7 +71,7 @@ public class CourseController extends BaseController {
             response.setCharacterEncoding("utf-8");
             
             // 防止中文乱码
-            String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
+            String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8)
                     .replaceAll("\\+", "%20");
             response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + encodedFileName);
             

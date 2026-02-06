@@ -19,7 +19,7 @@ public interface CourseCountMapper extends com.baomidou.mybatisplus.core.mapper.
      * @param courseCount 课程数量
      * @return 课程数量集合
      */
-    public java.util.List<CourseCount> selectCourseCountList(CourseCount courseCount);
+    java.util.List<CourseCount> selectCourseCountList(CourseCount courseCount);
 
     /**
      * 批量删除课程数量
@@ -27,6 +27,6 @@ public interface CourseCountMapper extends com.baomidou.mybatisplus.core.mapper.
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteCourseCountByIds(Long[] ids);
+    int deleteCourseCountByIds(Long[] ids);
 
 }

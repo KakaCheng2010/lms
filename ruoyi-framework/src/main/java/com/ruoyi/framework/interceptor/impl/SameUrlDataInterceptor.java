@@ -41,9 +41,8 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
     public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation)
     {
         String nowParams = "";
-        if (request instanceof RepeatedlyRequestWrapper)
+        if (request instanceof RepeatedlyRequestWrapper repeatedlyRequest)
         {
-            RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
             nowParams = HttpHelper.getBodyString(repeatedlyRequest);
         }
 
@@ -101,10 +100,6 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
     {
         long time1 = (Long) nowMap.get(REPEAT_TIME);
         long time2 = (Long) preMap.get(REPEAT_TIME);
-        if ((time1 - time2) < interval)
-        {
-            return true;
-        }
-        return false;
+        return (time1 - time2) < interval;
     }
 }
