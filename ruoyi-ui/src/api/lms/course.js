@@ -35,3 +35,13 @@ export function checkTeacherConflict(query) {
   })
 }
 
+// 导出课程表
+export function exportCourseSchedule(query) {
+  return request({
+    url: '/lms/course/export',
+    method: 'get',
+    params: query,
+    responseType: 'blob'
+  })
+}
+

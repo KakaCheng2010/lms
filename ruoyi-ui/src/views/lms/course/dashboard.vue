@@ -27,6 +27,17 @@
       <!--      <el-form-item>-->
       <!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
       <!--      </el-form-item>-->
+      
+      <el-form-item>
+        <el-button 
+          type="success" 
+          icon="el-icon-download" 
+          size="mini" 
+          @click="handleExport"
+          :loading="exportLoading">
+          导出Excel
+        </el-button>
+      </el-form-item>
     </el-form>
 
     <el-table :data="tableData" border>
@@ -127,13 +138,14 @@
 </template>
 
 <script>
-import {list, checkCourse, checkTeacherConflict} from "@/api/lms/course";
+import {list, checkCourse, checkTeacherConflict, exportCourseSchedule} from "@/api/lms/course";
 
 export default {
   dicts: ['term', 'clazz', 'course', 'grade'],
   data() {
     return {
       loading: false,
+      exportLoading: false, // 导出加载状态
       // 显示搜索条件
       showSearch: true,
       // 查询参数
@@ -220,6 +232,43 @@ export default {
         });
 
       })
+    },
+
+    /** 导出按钮操作 */
+    handleExport() {
+      // 检查必要参数
+      if (!this.queryParams.term || !this.queryParams.grade) {
+        this.$modal.msgError("请选择学期和年级");
+        return;
+      }
+
+      this.exportLoading = true;
+      
+      // 构建导出URL
+      const params = new URLSearchParams({
+        term: this.queryParams.term,
+        grade: this.queryParams.grade
+      });
+      
+      const exportUrl = `${process.env.VUE_APP_BASE_API}/lms/course/export?${params.toString()}`;
+      
+      // 创建隐藏的下载链接
+      const link = document.createElement('a');
+      link.href = exportUrl;
+      link.style.display = 'none';
+      
+      // 添加到DOM并触发下载
+      document.body.appendChild(link);
+      link.click();
+      
+      // 清理DOM
+      document.body.removeChild(link);
+      
+      // 延迟重置加载状态，给用户反馈
+      setTimeout(() => {
+        this.exportLoading = false;
+        this.$modal.msgSuccess("导出请求已发送，请稍候下载");
+      }, 1000);
     },
   },
   mounted() {
